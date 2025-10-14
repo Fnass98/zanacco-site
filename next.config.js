@@ -5,7 +5,8 @@ const nextConfig = {
   distDir: process.env.NEXT_DIST_DIR || '.next',
   output: process.env.NEXT_OUTPUT_MODE,
   experimental: {
-    outputFileTracingRoot: path.join(__dirname, '../'),
+    // Ensure tracing root is the project root on Vercel to avoid duplicated path segments like /path0/path0
+    outputFileTracingRoot: process.cwd(),
   },
   eslint: {
     ignoreDuringBuilds: true,
