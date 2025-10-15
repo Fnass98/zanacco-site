@@ -10,23 +10,43 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Project {
-  id          String   @id @default(cuid())
-  title       String
-  slug        String   @unique
-  description String?
-  imageUrl    String?
-  siteUrl     String?
-  tags        String[]
-  order       Int       @default(0)
-  published   Boolean   @default(true)
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+model SiteText {
+  key       String   @id @db.VarChar(120)
+  value     String   @db.Text
 }
 
-model SiteText {
-  key       String  @id
-  value     String
-  updatedAt DateTime @updatedAt
+model ImageAsset {
+  id        String   @id @default(cuid())
+  url       String
+  width     Int?
+  height    Int?
+  alt       String?
   createdAt DateTime @default(now())
+}
+
+model Project {
+  id           String    @id @default(cuid())
+  slug         String    @unique
+  title        String
+  summary      String?
+  coverUrl     String?
+  galleryUrls  String[]  @default([])
+  tags         String[]  @default([])
+  externalUrl  String?
+  order        Int       @default(0)
+  published    Boolean   @default(false)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  // SEO
+  seoTitle     String?
+  seoDesc      String?
+}
+
+model PageSEO {
+  id          String   @id @default(cuid())
+  page        String   @unique
+  title       String?
+  description String?
+  ogImage     String?
+  updatedAt   DateTime @updatedAt
 }
