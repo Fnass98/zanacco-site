@@ -1,4 +1,4 @@
 {
   "installCommand": "npm install --legacy-peer-deps",
-  "buildCommand": "prisma db push && next build"
+  "buildCommand": "sh -lc 'if [ -n \"$DATABASE_URL\" ] && echo \"$DATABASE_URL\" | grep -E \"^postgres(|ql)://\" >/dev/null; then echo \"Running prisma db push...\"; npx prisma db push; else echo \"Skipping prisma db push (DATABASE_URL not postgres)\"; fi && next build'"
 }
